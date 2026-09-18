@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @EnableFrameworkSecurity
-@EnableFrameworkSession
 public class LabApplication {
 
     public static void main(String[] args) {
