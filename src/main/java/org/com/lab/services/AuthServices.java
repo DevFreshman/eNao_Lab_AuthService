@@ -6,7 +6,7 @@ import org.com.lab.dto.response.LoginResponse;
 import org.com.lab.entity.AuthUser;
 import org.com.lab.entity.enums.UserRole;
 import org.com.lab.entity.enums.UserStatus;
-import org.com.lab.error.LabErrorCode;
+import org.com.lab.error.AuthErrorCode;
 import org.com.lab.repository.AuthUserJpaRepository;
 import org.example.javaframework.infra.security.JwtProvider;
 import org.example.javaframework.web.common.EnumConverter;
@@ -36,7 +36,7 @@ public class AuthServices {
         String password = registerRequest.password();
         String role = registerRequest.role();
         if(userJpaRepository.existsByUsername(username)) {
-            throw new BusinessException(LabErrorCode.USER_ALREADY_EXISTS, username);
+            throw new BusinessException(AuthErrorCode.USER_ALREADY_EXISTS, username);
         }
         AuthUser user = new AuthUser();
         user.setId(UUID.randomUUID().toString().replace("-", "").substring(0, 25));
@@ -51,9 +51,9 @@ public class AuthServices {
         String username = loginRequest.username();
         String password = loginRequest.password();
         AuthUser user = userJpaRepository.findByUsername(username)
-                .orElseThrow(() -> new BusinessException(LabErrorCode.USER_NOT_FOUND, username));
+                .orElseThrow(() -> new BusinessException(AuthErrorCode.USER_NOT_FOUND, username));
         if(!passwordEncoder.matches(password, user.getPasswordHash())) {
-            throw new BusinessException(LabErrorCode.INVALID_CREDENTIALS);
+            throw new BusinessException(AuthErrorCode.INVALID_CREDENTIALS);
         }
         String token = jwtProvider.generateToken(user.getId(),user.getUsername(),user.getRole().toString(), null);
         return new LoginResponse(token);
