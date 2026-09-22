@@ -55,7 +55,7 @@ public class AuthServices {
         if(!passwordEncoder.matches(password, user.getPasswordHash())) {
             throw new BusinessException(AuthErrorCode.INVALID_CREDENTIALS);
         }
-        String token = jwtProvider.generateToken(user.getId(),user.getUsername(),user.getRole().toString(), null);
+        String token = jwtProvider.generateToken(user.getId(),user.getUsername(), user.getRole().name(), user.getStatus().toString());
         return new LoginResponse(token);
     }
 
