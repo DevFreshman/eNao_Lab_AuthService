@@ -9,7 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/public/auth")
+@RequestMapping("/public")
 public class AuthController {
 
     private final AuthServices authServices;
